@@ -180,6 +180,8 @@
     <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
     <button class="refresh-btn" onclick="forceCrawl()" style="bottom: 80px; background: #f44747;">🔄 Force Crawl</button>
     <button class="refresh-btn" onclick="exportProducts()" style="bottom: 130px; background: #4ec9b0;">📦 Export Products</button>
+    <button class="refresh-btn" onclick="uploadAllProducts()" style="bottom: 180px; background: #ff6b35;">🚀 Upload All</button>
+    <button class="refresh-btn" onclick="uploadSingleProduct()" style="bottom: 230px; background: #9b59b6;">📤 Upload One</button>
 
     <script>
         let data = [];
@@ -295,6 +297,116 @@
                     }
                 });
             }
+        }
+
+        function uploadAllProducts() {
+            if (confirm('Bạn có chắc muốn upload tất cả products lên server? Điều này sẽ mất nhiều thời gian.')) {
+                const loading = document.getElementById('loading');
+                const jsonContainer = document.getElementById('jsonContainer');
+                
+                if (loading) loading.style.display = 'block';
+                if (jsonContainer) jsonContainer.style.display = 'none';
+
+                fetch('/api/upload-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if (loading) loading.style.display = 'none';
+                    if (jsonContainer) {
+                        jsonContainer.innerHTML = `
+                            <div class="success">
+                                <h3>✅ Upload hoàn thành!</h3>
+                                <p><strong>Thông báo:</strong> ${result.message}</p>
+                                <p><strong>Tổng số:</strong> ${result.stats.total}</p>
+                                <p><strong>Products:</strong> ${result.stats.products}</p>
+                                <p><strong>Attributes:</strong> ${result.stats.attributes}</p>
+                                <p><strong>Images:</strong> ${result.stats.images}</p>
+                                <p><strong>Lỗi:</strong> ${result.stats.errors}</p>
+                                ${result.errors.length > 0 ? `
+                                    <h4>Chi tiết lỗi:</h4>
+                                    <ul>
+                                        ${result.errors.map(error => `<li>${error.type}: ${error.name || error.productId} - ${error.error}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `;
+                        jsonContainer.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error uploading products:', error);
+                    if (loading) loading.style.display = 'none';
+                    if (jsonContainer) {
+                        jsonContainer.innerHTML = `
+                            <div class="error">
+                                <h3>❌ Lỗi upload products:</h3>
+                                <p>${error.message}</p>
+                            </div>
+                        `;
+                        jsonContainer.style.display = 'block';
+                    }
+                });
+            }
+        }
+
+        function uploadSingleProduct() {
+            const productIndex = prompt('Nhập index của product cần upload (bắt đầu từ 0):');
+            if (productIndex === null) return;
+            
+            const index = parseInt(productIndex);
+            if (isNaN(index) || index < 0) {
+                alert('Index không hợp lệ!');
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const jsonContainer = document.getElementById('jsonContainer');
+            
+            if (loading) loading.style.display = 'block';
+            if (jsonContainer) jsonContainer.style.display = 'none';
+
+            fetch(`/api/upload-product/${index}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                if (loading) loading.style.display = 'none';
+                if (jsonContainer) {
+                    jsonContainer.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Upload product hoàn thành!</h3>
+                            <p><strong>Thông báo:</strong> ${result.message}</p>
+                            <p><strong>Product ID:</strong> ${result.product.id || result.product._id}</p>
+                            <p><strong>Products:</strong> ${result.stats.products}</p>
+                            <p><strong>Attributes:</strong> ${result.stats.attributes}</p>
+                            <p><strong>Images:</strong> ${result.stats.images}</p>
+                        </div>
+                    `;
+                    jsonContainer.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading product:', error);
+                if (loading) loading.style.display = 'none';
+                if (jsonContainer) {
+                    jsonContainer.innerHTML = `
+                        <div class="error">
+                            <h3>❌ Lỗi upload product:</h3>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                    jsonContainer.style.display = 'block';
+                }
+            });
         }
 
         function updateStats() {
