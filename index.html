@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Crawler - JSON View</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #2d2d2d;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+
+        .header h1 {
+            color: #4ec9b0;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: #9cdcfe;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #2d2d2d;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #1e1e1e;
+            border-radius: 5px;
+            border: 1px solid #404040;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4ec9b0;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #9cdcfe;
+            font-size: 0.9rem;
+        }
+
+        .json-container {
+            background: #1e1e1e;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .json-content {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #9cdcfe;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #4ec9b0;
+            color: #1e1e1e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #3ba99c;
+        }
+
+        .error {
+            color: #f44747;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #f44747;
+            margin: 20px 0;
+        }
+
+        .success {
+            color: #4ec9b0;
+        }
+
+        .warning {
+            color: #dcdcaa;
+        }
+
+        .info {
+            color: #9cdcfe;
+        }
+
+        .string { color: #ce9178; }
+        .number { color: #b5cea8; }
+        .boolean { color: #569cd6; }
+        .null { color: #569cd6; }
+        .key { color: #9cdcfe; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🕷️ Data Crawler - JSON View</h1>
+            <p>Raw JSON data from crawler</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="successCount">0</div>
+                <div class="stat-label">Success</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="errorCount">0</div>
+                <div class="stat-label">Errors</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="cacheStatus">❓</div>
+                <div class="stat-label">Cache Status</div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <p>Loading data...</p>
+        </div>
+
+        <div id="jsonContainer" class="json-container" style="display: none;">
+            <div class="json-content" id="jsonContent"></div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+    <button class="refresh-btn" onclick="forceCrawl()" style="bottom: 80px; background: #f44747;">🔄 Force Crawl</button>
+
+    <script>
+        let data = [];
+
+        function loadData() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('jsonContainer').style.display = 'none';
+
+            fetch('/api/data')
+                .then(response => response.json())
+                .then(newData => {
+                    data = newData;
+                    updateStats();
+                    renderJSON();
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('jsonContainer').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('jsonContainer').innerHTML = `
+                        <div class="error">
+                            <h3>Error loading data:</h3>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                    document.getElementById('jsonContainer').style.display = 'block';
+                });
+        }
+
+        function forceCrawl() {
+            if (confirm('Bạn có chắc muốn crawl lại? Điều này sẽ xóa cache và crawl lại từ đầu.')) {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('jsonContainer').style.display = 'none';
+
+                fetch('/api/force-crawl')
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result.message);
+                        // Chờ một chút rồi load lại
+                        setTimeout(() => {
+                            loadData();
+                        }, 2000);
+                    })
+                    .catch(error => {
+                        console.error('Error force crawling:', error);
+                        document.getElementById('loading').style.display = 'none';
+                    });
+            }
+        }
+
+        function updateStats() {
+            const totalCount = data.length;
+            const successCount = data.filter(item => 
+                typeof item.status === 'string' ? 
+                item.status.includes('thành công') || item.status.includes('success') : 
+                false
+            ).length;
+            const errorCount = data.filter(item => 
+                typeof item.status === 'string' ? 
+                item.status.includes('lỗi') || item.status.includes('error') : 
+                false
+            ).length;
+
+            document.getElementById('totalCount').textContent = totalCount;
+            document.getElementById('successCount').textContent = successCount;
+            document.getElementById('errorCount').textContent = errorCount;
+            
+            // Cập nhật cache status
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(status => {
+                    const cacheStatus = document.getElementById('cacheStatus');
+                    if (status.hasCache) {
+                        cacheStatus.textContent = '✅';
+                        cacheStatus.title = 'Có cache';
+                    } else {
+                        cacheStatus.textContent = '❌';
+                        cacheStatus.title = 'Không có cache';
+                    }
+                });
+        }
+
+        function renderJSON() {
+            const container = document.getElementById('jsonContent');
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div class="warning">No data available</div>';
+                return;
+            }
+
+            // Format JSON with syntax highlighting
+            const jsonString = JSON.stringify(data, null, 2);
+            container.innerHTML = syntaxHighlight(jsonString);
+        }
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // Auto refresh every 10 seconds
+        setInterval(loadData, 10000);
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>
