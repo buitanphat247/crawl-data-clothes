@@ -1,0 +1,27 @@
+{
+  "title": "Bóp tay nữ OCL0001-1",
+  "price": "4,199,000₫",
+  "priceOld": "8,398,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/bop-tay-nu-ocl0001-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "OCL0001-1NK-0000"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giogio"
+  },
+  "sizeList": [
+    "Đen",
+    "Nâu",
+    "Ghi"
+  ],
+  "colorList": [],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:47.756Z"
+}

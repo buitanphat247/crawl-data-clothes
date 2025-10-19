@@ -1,0 +1,30 @@
+{
+  "title": "Áo sơ mi nam dài tay GLS0348-1",
+  "price": "1,199,000₫",
+  "priceOld": "2,398,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/ao-so-mi-nam-dai-tay-gls0348-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GLS0348-1NR-0050"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "L",
+    "M",
+    "S",
+    "XL"
+  ],
+  "colorList": [
+    "Đỏ"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:42.887Z"
+}

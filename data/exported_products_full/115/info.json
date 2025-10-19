@@ -1,0 +1,27 @@
+{
+  "title": "Túi xách nữ OLD0001-1",
+  "price": "1,999,000₫",
+  "priceOld": "3,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/tui-xach-nu-old0001-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "OLD0001-1HB-0000"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Hết hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giogio"
+  },
+  "sizeList": [
+    "Nâu sắc nóng",
+    "Đen",
+    "Hồng"
+  ],
+  "colorList": [],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:49.409Z"
+}

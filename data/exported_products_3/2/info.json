@@ -1,0 +1,31 @@
+{
+  "title": "Áo Sơ Mi Cộc Tay Nam GSS0173-1",
+  "price": "999,000₫",
+  "priceOld": "1,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/ao-so-mi-coc-tay-nam-gss0173-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GSS0173-1CV-0046"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "colorList": [
+    "Tím",
+    "Ghi"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:29:44.258Z"
+}

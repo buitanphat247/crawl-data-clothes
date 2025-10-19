@@ -1,0 +1,26 @@
+{
+  "title": "Bóp Tay Nam BCL0009-1",
+  "price": "4,999,000₫",
+  "priceOld": "",
+  "sale": "",
+  "url": "https://giovannioutlet.com/products/bop-tay-nam-bcl0009-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "BCL0009-1NK-0000"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Bernini"
+  },
+  "sizeList": [
+    "Đen",
+    "Xanh navy"
+  ],
+  "colorList": [],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:46.216Z"
+}

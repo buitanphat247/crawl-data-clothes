@@ -1,0 +1,32 @@
+{
+  "title": "Quần Âu Nam GPT0109-1",
+  "price": "1,499,000₫",
+  "priceOld": "2,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/quan-au-nam-gpt0109-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GPT0109-1NN-0029"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34"
+  ],
+  "colorList": [
+    "Xanh navy"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:29:45.680Z"
+}

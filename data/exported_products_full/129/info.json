@@ -1,0 +1,27 @@
+{
+  "title": "Ví nữ OWL0002-1",
+  "price": "1,999,000₫",
+  "priceOld": "3,999,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/vi-nu-owl0002-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "OWL0002-1HB-0000"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giogio"
+  },
+  "sizeList": [
+    "Nâu sắc nóng",
+    "Đen",
+    "Ghi"
+  ],
+  "colorList": [],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:50.949Z"
+}

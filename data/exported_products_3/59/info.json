@@ -1,0 +1,33 @@
+{
+  "title": "Quần Âu Nam GPT0084-1",
+  "price": "1,499,000₫",
+  "priceOld": "2,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/quan-au-nam-gpt0084-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GPT0084-1DN-0029"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Hết hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "36"
+  ],
+  "colorList": [
+    "NAVY-ĐẬM"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:29:50.511Z"
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Áo phông cộc tay nam GPL0153-1",
+  "price": "999,000₫",
+  "priceOld": "1,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/ao-phong-coc-tay-nam-gpl0153-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GPL0153-1HB-0050"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Hết hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "L",
+    "M",
+    "S",
+    "XL"
+  ],
+  "colorList": [
+    "Nâu",
+    "Xanh lá cây",
+    "Trắng"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:29:49.197Z"
+}

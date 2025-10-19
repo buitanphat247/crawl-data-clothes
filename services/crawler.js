@@ -34,49 +34,75 @@ class CrawlerService {
     this.isCrawling = true;
     
     try {
-      console.log('🚀 Bắt đầu crawl dữ liệu...');
-      console.log('📡 Đang tải trang chính...');
-      
-      const $ = await scraper.crawlMainPage();
-      console.log('✅ Đã tải trang chính thành công!');
+      console.log('🚀 Bắt đầu crawl dữ liệu từ tất cả URLs...');
+      console.log(`📡 Sẽ crawl ${config.CRAWL_URLS.length} URLs:`);
+      config.CRAWL_URLS.forEach((url, index) => {
+        console.log(`  ${index + 1}. ${url}`);
+      });
 
       var data = [];
+      let allProducts = [];
 
-      // Lấy sản phẩm từ trang đầu tiên
-      console.log('🔍 Đang parse sản phẩm trang 1...');
-      let allProducts = scraper.getProductsFromHtml($);
-      console.log(`📊 Trang 1: Tìm thấy ${allProducts.length} sản phẩm`);
-
-      // Load thêm trang nếu được cấu hình
-      if (config.MAX_NEXT_PAGES > 0) {
-        console.log(`🔄 Đang load thêm ${config.MAX_NEXT_PAGES} trang tiếp theo...`);
+      // Crawl từng URL
+      for (let urlIndex = 0; urlIndex < config.CRAWL_URLS.length; urlIndex++) {
+        const url = config.CRAWL_URLS[urlIndex];
+        console.log(`\n🌐 [${urlIndex + 1}/${config.CRAWL_URLS.length}] Đang crawl: ${url}`);
         
-        for (let pageNum = 2; pageNum <= config.MAX_NEXT_PAGES + 1; pageNum++) {
-          console.log(`📡 Đang tải trang ${pageNum}...`);
-          const { $nextPage, newProducts } = await scraper.loadNextPage(pageNum);
-          
-          if (newProducts.length === 0) {
-            console.log(`❌ Trang ${pageNum} không có sản phẩm, dừng load`);
-            break;
+        try {
+          const $ = await scraper.crawlPage(url);
+          console.log(`✅ Đã tải URL thành công!`);
+
+          // Lấy sản phẩm từ trang này
+          console.log('🔍 Đang parse sản phẩm...');
+          let pageProducts = scraper.getProductsFromHtml($);
+          console.log(`📊 Tìm thấy ${pageProducts.length} sản phẩm từ URL này`);
+
+          // Load thêm trang nếu được cấu hình
+          if (config.MAX_NEXT_PAGES > 0) {
+            console.log(`🔄 Đang load thêm ${config.MAX_NEXT_PAGES} trang tiếp theo...`);
+            
+            for (let pageNum = 2; pageNum <= config.MAX_NEXT_PAGES + 1; pageNum++) {
+              console.log(`📡 Đang tải trang ${pageNum}...`);
+              const { $nextPage, newProducts } = await scraper.loadNextPage(pageNum, url);
+              
+              if (newProducts.length === 0) {
+                console.log(`❌ Trang ${pageNum} không có sản phẩm, dừng load`);
+                break;
+              }
+              
+              // Kiểm tra trùng lặp
+              const existingUrls = pageProducts.map(p => p.url);
+              const uniqueNewProducts = newProducts.filter(p => !existingUrls.includes(p.url));
+              
+              if (uniqueNewProducts.length === 0) {
+                console.log(`❌ Trang ${pageNum}: Tất cả sản phẩm đã tồn tại, dừng load`);
+                break;
+              }
+              
+              pageProducts = pageProducts.concat(uniqueNewProducts);
+              console.log(`✅ Trang ${pageNum}: Thêm ${uniqueNewProducts.length} sản phẩm mới (Tổng: ${pageProducts.length})`);
+              
+              // Delay giữa các request
+              if (pageNum <= config.MAX_NEXT_PAGES) {
+                console.log('⏳ Chờ 1 giây...');
+                await new Promise(resolve => setTimeout(resolve, config.REQUEST_DELAY));
+              }
+            }
           }
-          
-          // Kiểm tra trùng lặp
-          const existingUrls = allProducts.map(p => p.url);
-          const uniqueNewProducts = newProducts.filter(p => !existingUrls.includes(p.url));
-          
-          if (uniqueNewProducts.length === 0) {
-            console.log(`❌ Trang ${pageNum}: Tất cả sản phẩm đã tồn tại, dừng load`);
-            break;
-          }
-          
-          allProducts = allProducts.concat(uniqueNewProducts);
-          console.log(`✅ Trang ${pageNum}: Thêm ${uniqueNewProducts.length} sản phẩm mới (Tổng: ${allProducts.length})`);
-          
-          // Delay giữa các request
-          if (pageNum <= config.MAX_NEXT_PAGES) {
-            console.log('⏳ Chờ 1 giây...');
-            await new Promise(resolve => setTimeout(resolve, config.REQUEST_DELAY));
-          }
+
+          // Thêm sản phẩm từ URL này vào tổng
+          allProducts = allProducts.concat(pageProducts);
+          console.log(`✅ URL ${urlIndex + 1}: Tổng cộng ${pageProducts.length} sản phẩm (Tổng tất cả: ${allProducts.length})`);
+
+        } catch (error) {
+          console.error(`❌ Lỗi crawl URL ${urlIndex + 1} (${url}):`, error.message);
+          // Tiếp tục với URL tiếp theo
+        }
+
+        // Delay giữa các URLs
+        if (urlIndex < config.CRAWL_URLS.length - 1) {
+          console.log('⏳ Chờ 2 giây trước URL tiếp theo...');
+          await new Promise(resolve => setTimeout(resolve, 2000));
         }
       }
 

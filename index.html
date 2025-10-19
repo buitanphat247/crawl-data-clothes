@@ -179,40 +179,53 @@
 
     <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
     <button class="refresh-btn" onclick="forceCrawl()" style="bottom: 80px; background: #f44747;">🔄 Force Crawl</button>
+    <button class="refresh-btn" onclick="exportProducts()" style="bottom: 130px; background: #4ec9b0;">📦 Export Products</button>
 
     <script>
         let data = [];
 
         function loadData() {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('jsonContainer').style.display = 'none';
+            const loading = document.getElementById('loading');
+            const jsonContainer = document.getElementById('jsonContainer');
+            
+            if (loading) loading.style.display = 'block';
+            if (jsonContainer) jsonContainer.style.display = 'none';
 
             fetch('/api/data')
                 .then(response => response.json())
                 .then(newData => {
                     data = newData;
                     updateStats();
-                    renderJSON();
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('jsonContainer').style.display = 'block';
+                    
+                    // Hiển thị container trước khi render JSON
+                    if (jsonContainer) {
+                        jsonContainer.style.display = 'block';
+                        if (loading) loading.style.display = 'none';
+                        renderJSON();
+                    }
                 })
                 .catch(error => {
                     console.error('Error loading data:', error);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('jsonContainer').innerHTML = `
-                        <div class="error">
-                            <h3>Error loading data:</h3>
-                            <p>${error.message}</p>
-                        </div>
-                    `;
-                    document.getElementById('jsonContainer').style.display = 'block';
+                    if (loading) loading.style.display = 'none';
+                    if (jsonContainer) {
+                        jsonContainer.innerHTML = `
+                            <div class="error">
+                                <h3>Error loading data:</h3>
+                                <p>${error.message}</p>
+                            </div>
+                        `;
+                        jsonContainer.style.display = 'block';
+                    }
                 });
         }
 
         function forceCrawl() {
             if (confirm('Bạn có chắc muốn crawl lại? Điều này sẽ xóa cache và crawl lại từ đầu.')) {
-                document.getElementById('loading').style.display = 'block';
-                document.getElementById('jsonContainer').style.display = 'none';
+                const loading = document.getElementById('loading');
+                const jsonContainer = document.getElementById('jsonContainer');
+                
+                if (loading) loading.style.display = 'block';
+                if (jsonContainer) jsonContainer.style.display = 'none';
 
                 fetch('/api/force-crawl')
                     .then(response => response.json())
@@ -225,8 +238,62 @@
                     })
                     .catch(error => {
                         console.error('Error force crawling:', error);
-                        document.getElementById('loading').style.display = 'none';
+                        if (loading) loading.style.display = 'none';
                     });
+            }
+        }
+
+        function exportProducts() {
+            if (confirm('Bạn có chắc muốn export tất cả products? Điều này sẽ tạo folder cho từng product và download ảnh.')) {
+                const loading = document.getElementById('loading');
+                const jsonContainer = document.getElementById('jsonContainer');
+                
+                if (loading) loading.style.display = 'block';
+                if (jsonContainer) jsonContainer.style.display = 'none';
+
+                fetch('/api/export-products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    if (loading) loading.style.display = 'none';
+                    if (jsonContainer) {
+                        jsonContainer.innerHTML = `
+                            <div class="success">
+                                <h3>✅ Export hoàn thành!</h3>
+                                <p><strong>Thông báo:</strong> ${result.message}</p>
+                                <p><strong>Tổng số:</strong> ${result.stats.total}</p>
+                                <p><strong>Thành công:</strong> ${result.stats.success}</p>
+                                <p><strong>Lỗi:</strong> ${result.stats.errors}</p>
+                                <p><strong>Đường dẫn export:</strong> ${result.exportPath}</p>
+                                ${result.errors.length > 0 ? `
+                                    <h4>Chi tiết lỗi:</h4>
+                                    <ul>
+                                        ${result.errors.map(error => `<li>Product ${error.productId}: ${error.title} - ${error.error}</li>`).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `;
+                        jsonContainer.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error exporting products:', error);
+                    if (loading) loading.style.display = 'none';
+                    if (jsonContainer) {
+                        jsonContainer.innerHTML = `
+                            <div class="error">
+                                <h3>❌ Lỗi export products:</h3>
+                                <p>${error.message}</p>
+                            </div>
+                        `;
+                        jsonContainer.style.display = 'block';
+                    }
+                });
             }
         }
 
@@ -264,6 +331,11 @@
 
         function renderJSON() {
             const container = document.getElementById('jsonContent');
+            
+            if (!container) {
+                console.error('Element jsonContent not found');
+                return;
+            }
             
             if (data.length === 0) {
                 container.innerHTML = '<div class="warning">No data available</div>';

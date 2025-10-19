@@ -1,0 +1,32 @@
+{
+  "title": "Dây Lưng Nam Bernini BBL0121-1",
+  "price": "999,000₫",
+  "priceOld": "1,899,000₫",
+  "sale": "-47%",
+  "url": "https://giovannioutlet.com/products/day-lung-nam-bernini-bbl0121-2",
+  "SKU": {
+    "name": "SKU",
+    "value": "BBL0121-1NK-0100"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Bernini"
+  },
+  "sizeList": [
+    "100",
+    "105",
+    "110",
+    "115",
+    "90",
+    "95"
+  ],
+  "colorList": [
+    "Đen"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:15:45.366Z"
+}

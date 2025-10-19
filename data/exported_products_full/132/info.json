@@ -1,0 +1,31 @@
+{
+  "title": "Dây Lưng Nam GBL0340-1",
+  "price": "1,199,000₫",
+  "priceOld": "2,398,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/day-lung-nam-gbl0340-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GBL0340-1BB-0090"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Hết hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "90",
+    "95",
+    "100",
+    "105",
+    "110"
+  ],
+  "colorList": [
+    "Nâu"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:51.276Z"
+}

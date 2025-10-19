@@ -1,0 +1,27 @@
+{
+  "title": "Ví nam Bernini BWL0017-1",
+  "price": "1,499,000₫",
+  "priceOld": "",
+  "sale": "",
+  "url": "https://giovannioutlet.com/products/vi-nam-bernini-bwl0017-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "BWL0017-1NK-0000"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Bernini"
+  },
+  "sizeList": [
+    "Đen",
+    "Nâu",
+    "Navy"
+  ],
+  "colorList": [],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:46.326Z"
+}

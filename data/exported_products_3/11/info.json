@@ -1,0 +1,30 @@
+{
+  "title": "Áo Polo cộc tay nam GPL0199-1",
+  "price": "1,199,000₫",
+  "priceOld": "2,398,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/ao-phong-coc-tay-nam-gpl0199-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GPL0199-1OB-0050"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Hết hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "L",
+    "M",
+    "S",
+    "XL"
+  ],
+  "colorList": [
+    "Xanh nước biển"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:29:45.249Z"
+}

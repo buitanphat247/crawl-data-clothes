@@ -1,0 +1,30 @@
+{
+  "title": "Áo sơ mi cộc tay nam GSS0166-1",
+  "price": "999,000₫",
+  "priceOld": "1,998,000₫",
+  "sale": "-50%",
+  "url": "https://giovannioutlet.com/products/ao-so-mi-coc-tay-nam-gss0166-1",
+  "SKU": {
+    "name": "SKU",
+    "value": "GSS0166-1NN-0046"
+  },
+  "status": {
+    "name": "Trạng thái",
+    "value": "Còn hàng"
+  },
+  "brand": {
+    "name": "Thương hiệu",
+    "value": "Giovanni"
+  },
+  "sizeList": [
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "colorList": [
+    "Xanh Navy"
+  ],
+  "desc": "",
+  "exportedAt": "2025-10-19T10:40:38.991Z"
+}

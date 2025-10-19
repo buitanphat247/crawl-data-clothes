@@ -86,10 +86,10 @@ async function crawlProductDetails(productUrl) {
 }
 
 // Hàm load trang tiếp theo
-async function loadNextPage(pageNumber) {
+async function loadNextPage(pageNumber, baseUrl = config.SALE_URL) {
   try {
     const nextPageHtml = await request({
-      uri: `${config.SALE_URL}?page=${pageNumber}`,
+      uri: `${baseUrl}?page=${pageNumber}`,
       headers: {
         ...config.DEFAULT_HEADERS,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -120,9 +120,20 @@ async function crawlMainPage() {
   return cheerio.load(html);
 }
 
+// Hàm crawl từ URL bất kỳ
+async function crawlPage(url) {
+  const html = await request({
+    uri: url,
+    headers: config.DEFAULT_HEADERS
+  });
+  
+  return cheerio.load(html);
+}
+
 module.exports = {
   getProductsFromHtml,
   crawlProductDetails,
   loadNextPage,
-  crawlMainPage
+  crawlMainPage,
+  crawlPage
 };
